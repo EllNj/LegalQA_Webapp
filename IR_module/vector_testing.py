@@ -1,0 +1,1 @@
+queries = ["when do I have to make my high risk system compliant?", "what is classed as a deployer?", "what are the categories of AI system?", "would my AI that sees if someone has good credit be considered high risk?"]
