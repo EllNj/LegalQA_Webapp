@@ -1,0 +1,11 @@
+transformers
+datasets
+accelerate
+torch
+flask
+langchain
+sentence-transformers
+langchain-community
+langchain-huggingface
+numpy
+faiss-cpu
