@@ -21,4 +21,3 @@ print(f"this is chunk 1, {docs[0].page_content}")
 print(f"this is chunk 2, {docs[1].page_content}")
 print(f"this is chunk 3, {docs[2].page_content}")
 
-# git testing 123
