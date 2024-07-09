@@ -1,25 +1,32 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
-import numpy as np
-from preprocess_doc import text_to_chunks
 from langchain.schema import Document
-from vector_testing import queries
+
 
 document = '../uploads/testing.pdf'
-chunks = text_to_chunks(document)
-documents = [Document(page_content=chunk)for chunk in chunks]
 
 embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 
-db = FAISS.from_documents(documents, embedding_model)
+def create_embeddings_and_index(chunks, embedding_model):
+    documents = [Document(page_content=str(chunk)) for chunk in chunks]
+    db = FAISS.from_documents(documents, embedding_model)
+    return db
 
-print(db.index.ntotal)
 
-for query in queries:
-    docs = db.similarity_search(query)
-    print(query)
-    print(f"this is chunk 1, {docs[0].page_content}")
-    print(f"this is chunk 2, {docs[1].page_content}")
-    print(f"this is chunk 3, {docs[2].page_content}")
+# this function is going to carry out the search and combine the different documents for context
+# using the langchain documentation, and their RAG tutorial
+# some changes for improvement that could be made here are multiqueryretriever
+def search_and_combine(query, db):
+    context = ''
+    retriever = db.as_retriever(
+        search_type="similarity",
+        search_kwargs={"k": 5}
+                               )
+    retrieved_docs = retriever.invoke(query)
+    for each in range(min(5, len(retrieved_docs))):
+        context += retrieved_docs[each].page_content
+        context += "\n\n"
+    return context
+
 

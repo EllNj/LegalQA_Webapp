@@ -16,12 +16,7 @@ def create_chunks(text, chunk_size=512, overlap=60):
     chunks = text_splitter.split_text(text)
     return chunks
 
-document = '../uploads/testing.pdf'
 
-text = text_from_pdf(document)
-
-chunks = create_chunks(text)
-print(chunks[2])
 
 
 def text_to_chunks(pdf_path):
